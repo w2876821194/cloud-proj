@@ -1,0 +1,11 @@
+#  keytool -genkeypair -alias mykey -keyalg RSA -keypass changeit -keystore config-key.jks -storepass changeit
+
+encrypt:
+  # 加密用的key
+#  key: bx
+  # 非对称加密
+  key-store:
+    location: classpath:/config-key.jks
+    alias: mykey  # -alias mykey 命令
+    password: changeit # -storepass changeit 命令
+    secret: changeit # -keypass changeit 命令

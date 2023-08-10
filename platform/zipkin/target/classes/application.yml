@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: zipkin-server
+  cloud:
+    nacos:
+      server-addr: 192.168.92.1:9011,192.168.92.1:9022,192.168.92.1:9033
+      username: nacos
+      password: nacos
+  main:
+    # 覆盖bean
+    allow-bean-definition-overriding: true
+
+zipkin:
+  collector:
+    rabbitmq:
+#        address: localhost:5672
+      addresses: 127.0.0.1:5672
+      username: guest
+      password: guest
+      queue: zipkin
+
+management:
+  metrics:
+    web:
+      server:
+        auto-time-requests: false
+server:
+  port: 30000

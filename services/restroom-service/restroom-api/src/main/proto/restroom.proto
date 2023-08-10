@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.imooc.restroom.proto.beans";
+
+package com.imooc.restroom.proto.beans;
+
+message ProtoRequest {
+  int64 id = 1;
+}
+message ProtoResponse {
+  int64 id = 1;
+}

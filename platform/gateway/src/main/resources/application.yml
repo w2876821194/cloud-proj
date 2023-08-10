@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: gateway-service
+  redis:
+    host: 192.168.92.1
+    port: 6379
+    database: 0
+#    password:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.92.1:9011
+        username: nacos
+        password: nacos
+    gateway:
+      discovery:
+        locator:
+          # 禁用通过服务发现来自动地将请求路由到不同的服务实例
+          enabled: false
+  sleuth:
+    sampler:
+      probability: 1
+# zipkin集成
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  security:
+    enable: false
+
+server:
+  port: 30004
+
+

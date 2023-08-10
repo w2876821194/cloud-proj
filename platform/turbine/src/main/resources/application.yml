@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: turbine-server
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.92.1:9011
+        username: nacos
+        password: nacos
+
+server:
+  port: 30001
+
+turbine:
+  aggregator:
+    cluster-config: # 聚合器集群配置
+      - default
+  app-config: employee-service # 应用程序配置
+  cluster-name-expression: '"default"' # 集群名称表达式
+  combine-host-port: true # 合并主机和端口
+
+

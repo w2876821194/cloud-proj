@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: config-server
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    config:
+      server:
+        # 属性重载
+        overrides:
+          testvalue: mytest
+        git:
+#          timeout: 60000
+          uri: https://github.com/w2876821194/Config-Server-Test.git
+          force-pull: true  # 强制拉取
+          default-label: main # 默认标签
+          username: # 公共仓不需要
+          password:
+          skip-ssl-validation: true # 国内访问有问题,减轻访问异常
+          search-paths: 'application' # 找对应文件夹的配置
+    #          repos: # 当应用请求满足某些特定规则的时候可以指定从其他地方获取配置文件
+    #            test-service: service*/test123*
+    #            uri: https://github.com/w2876821194/Config-Server-Test.git
+    #          basedir: /User/wu # 本地所存放的位置
+    # 如果使用Config,建议对接Consul或者Eureka
+    nacos:
+      discovery:
+        server-addr: 192.168.92.1:9011
+        username: nacos
+        password: nacos
+server:
+  port: 30003
+
+management:
+  endpoint:
+    health:
+      show-details: always # 总是显示各个组件的actuator信息
+  endpoints:
+    web:
+      exposure:
+        include: '*' # 暴漏所有端口
+  security:
+    enabled: false
+

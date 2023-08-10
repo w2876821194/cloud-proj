@@ -1,0 +1,126 @@
+server:
+  compression:
+    enabled: true
+  error:
+    includeException: true
+    includeStacktrace: ON_PARAM
+    includeMessage: ALWAYS
+
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    bus:
+      id: restroom-service
+#    alibaba:
+#      seata:
+#        tx-service-group: seata-server
+    loadbalancer:
+      ribbon:
+        enabled: false
+      cache:
+        enabled: true
+        ttl: 35s
+        capacity: 998
+    sentinel:
+      transport:
+        dashboard: 192.168.92.1:8718
+        client-ip: 192.168.92.1 # 防止sentinel抓取虚拟ip
+        port: 8719
+      datasource:
+        flow:
+          nacos:
+            server-addr: 192.168.92.1:9011
+            username: nacos
+            password: nacos
+            groupId: SENTINEL_GROUP
+            dataId: ${spring.application.name}-flow-rules
+            rule-type: flow
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      properties:
+        hibernate.format_sql: true
+        hibernate.show_sql: true
+      open-in-view: false
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/proj_restroom?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: root
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 2000
+      idle-timeout: 20000
+      maximum-pool-size: 20
+      minimum-idle: 5
+      max-lifetime: 30000
+      pool-name: imoocDataSourcePool
+
+  sleuth:
+    sample:
+      # 采样率
+      probability: 1
+      # 每秒最多采样100个trace
+      rate: 100
+
+  zipkin:
+    sender:
+      type: rabbit
+    rabbitmq:
+      addresses: 127.0.0.1:5672
+      queue: zipkin
+#    sender:
+#      type: web
+#    discovery-client-enabled: true
+#    base-url: http://zipkin-server
+#    locator:
+#      discovery:
+#        enabled: true
+
+seata:
+  application-id: restroom-service
+  registry:
+    type: nacos
+    nacos:
+      server-addr: 192.168.92.1:9011
+      application: seata-server
+      username: nacos
+      password: nacos
+      namespace: ""
+      group: DEFAULT_GROUP
+  tx-service-group: seata-employee
+  service:
+    vgroup-mapping:
+      seata-employee: SH
+  data-source-proxy-mode: AT
+
+
+management:
+  endpoint:
+    health:
+      # 总是显示各个组件的actuator信息
+      show-details: always
+  endpoints:
+    jmx:
+      # 启用JMX Endpoint，允许JMX远程连接
+      enabled: true
+      # 确保每个JMX bean都具有唯一的名称
+      unique-names: true
+    web:
+      exposure:
+        # 暴露所有endpoint
+        include: '*'
+  security:
+    enabled: false
+
+my:
+  username: jmx
+  password: jmx
+
+

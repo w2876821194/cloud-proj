@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: hystrix-dashboard
+
+server:
+  port: 30002
+
+hystrix:
+  dashboard:
+    proxy-stream-allow-list: "*"
+#hystrix:
+#  dashboard:
+#    proxy-stream-allow-list:
+#      - http://localhost:21000/actuator/hystrix.stream
+#      - http://192.168.92.1:21000/actuator/hystrix.stream
+
+

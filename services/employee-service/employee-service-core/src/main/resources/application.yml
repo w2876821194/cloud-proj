@@ -1,0 +1,197 @@
+server:
+  port: 21000
+  compression:
+    enabled: true
+  error:
+    includeException: true
+    includeStacktrace: ON_PARAM
+    includeMessage: ALWAYS
+# application.yml 文件
+
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: employee-service
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.92.1:9011
+        username: nacos
+        password: nacos
+        cluster-name: SH
+    alibaba:
+      seata:
+        tx-service-group: seata-server
+    loadbalancer:
+      ribbon:
+        enabled: false
+      cache:
+        enabled: true
+        ttl: 35s
+        capacity: 998
+    sentinel:
+      transport:
+        dashboard: 192.168.92.1:8718
+        client-ip: 192.168.92.1 # 防止sentinel抓取虚拟ip
+        port: 8719
+        datasource: #注意虽然sentinel配置了同步nacos拓展，并且数据能在控制台上同步显示，但是那些数据只是控制台读取的，并不是我们自己真实的服务读取的，所以下面配置还要写
+          ds1:
+            nacos:
+              server-addr: 192.168.92.1:9011
+              #namespace: sentinel
+              dataId: employee-auth-sentinel-flow
+              groupId: DEFAULT_GROUP
+              data-type: json
+              rule-type: flow
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      properties:
+        hibernate.format_sql: true
+        hibernate.show_sql: true
+      open-in-view: false
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/proj_employee?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: root
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 连接池
+    hikari:
+      connection-timeout: 2000
+      idle-timeout: 20000
+      maximum-pool-size: 20
+      minimum-idle: 5
+      max-lifetime: 30000
+      pool-name: imoocDataSourcePool
+
+  sleuth:
+    sample:
+      # 采样率
+      probability: 1
+      # 每秒最多采样100个trace
+      rate: 100
+
+#  zipkin:
+#    sender:
+#      type: rabbit
+#    rabbitmq:
+#      addresses: 127.0.0.1:5672
+#      queue: zipkin
+
+seata:
+  application-id: employee-service
+  registry:
+    type: nacos
+    nacos:
+      server-addr: 192.168.92.1:9011
+      application: seata-server
+      username: nacos
+      password: nacos
+      namespace: ""
+      group: DEFAULT_GROUP
+  tx-service-group: seata-employee
+  service:
+    vgroup-mapping:
+      seata-employee: SH
+  data-source-proxy-mode: AT
+
+hystrix:
+  command:
+    default:
+      # 局部配置
+      hystrixTest:
+      # 全局配置
+      default:
+        # 降级
+        fallback:
+          enabled: true # 开启降级
+        # 熔断
+        circuitBreaker:
+          enabled: true # 开启/禁用熔断机制（默认开启)
+          requestVolumeThreshold: 2 # 断路器请求阈值
+          sleepWindowInMilliseconds: 10000 # 断路器等待窗口
+          errorThresholdPercentage: 50 # 断路器错误百分比（触发条件)
+        # 统计
+        metrics:
+          rollingStats:
+            timeInMilliseconds: 20000 # 滑动窗口持续时间
+            numBuckets: 10 # 滑动窗口中bucket数量
+          rollingPercentile:
+            enabled: true # 是否执行时间百分比信息
+            timeInMilliseconds: 60000 # 执行时间统计周期
+            numBuckets: 6 # 执行时间统计内的bucket数量
+            bucketSize: 1000 # 每个bucket最多统计的记录条数
+          healthSnapshot:
+            intervalInMilliseconds : 500 #健康快照信息采集间隔
+        # 超时判定
+        execution:
+          timeout:
+            enabled: true # 是否允许超时
+          isolation:
+            # 线程隔离的配置
+            thread:
+              timeoutInMilliseconds: 3000 # 全局超时时间
+              interruptOnTimeout: true # 超时后是否中断线程
+              interruptOncancel: true # 取消调用后是否中断线程
+            # 信号量的配置
+            semaphore:
+              maxConcurrentRequests: 10 # 最大并发请求数
+
+
+#ribbon:
+#  eager-load:
+#    enabled: true
+#    clients: restroom-service
+#  ConnectionTimeout: 1000
+#  ReaddTimeout: 2000
+#  OkToRetryOnAllOperations: true
+#  MaxAutoRetries: 2
+#  MaxAutoRetriesNextServer: 2
+
+feign:
+  hystrix:
+    enabled: true
+  compression:
+    request:
+      enabled: true
+      min-request-size: 1024
+    response:
+      enabled: true
+  client:
+    default:
+      connectTimeout: 1000
+      readTimeout: 5000
+    restroom-service:
+      connectTimeout: 1000
+      readTimeout: 5000
+
+management:
+  endpoint:
+    health:
+      # 总是显示各个组件的actuator信息
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        # 暴露所有endpoint
+        include: '*'
+  security:
+    enabled: false
+
+logging:
+  level:
+    # 全局
+    ROOT: info
+    # 指定类
+#    com.imooc.employee.feign.RestroomFeignClient: debug
+
+
+
+

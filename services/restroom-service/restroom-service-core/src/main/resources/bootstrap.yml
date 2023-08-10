@@ -1,0 +1,39 @@
+server:
+  port: 20000
+
+spring:
+  application:
+    name: restroom-service
+  profiles:
+    active: dev # 环境配置
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.92.1:9011 #,192.168.92.1:9022,192.168.92.1:9033
+        username: nacos
+        password: nacos
+        cluster-name: SH
+        heart-beat-interval: 5000 # 心跳间隔时间
+        heart-beat-timeout: 15000 # 服务器剔除时间(标记为不健康),默认15s
+    # 对接Nacos
+    config:
+      uri: http://192.168.92.1:30003
+      profile: dev
+      label: main
+#    # Consul或者Eureka
+#    config:
+#      discovery:
+#        enabled: true
+#        service-id: config-service
+
+#      config:
+#        server-addr: 192.168.92.1:9011 #,192.168.92.1:9022,192.168.92.1:9033
+#        file-extension: yml
+#        username: nacos
+#        password: nacos
+#        shared-configs: # 指定配置文件
+#          - data-id: example-config
+#            group: shared
+#        extension-configs: # 指定共享配置文件
+#          - data-id:
+#            group:
