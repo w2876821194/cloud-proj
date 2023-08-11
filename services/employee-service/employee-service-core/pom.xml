@@ -61,6 +61,11 @@
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
 
@@ -140,17 +145,22 @@
             <artifactId>spring-boot-starter-activemq</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+            <version>2.2.9.RELEASE</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.github.shyiko</groupId>
+            <artifactId>mysql-binlog-connector-java</artifactId>
+            <version>0.9.2</version>
+        </dependency>
+
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>-->
-<!--            <version>2.2.9.RELEASE</version>-->
-<!--        </dependency>-->
-
-
-<!--        <dependency>-->
-<!--            <groupId>com.github.shyiko</groupId>-->
-<!--            <artifactId>mysql-binlog-connector-java</artifactId>-->
-<!--            <version>0.9.2</version>-->
+<!--            <artifactId>spring-cloud-starter-config</artifactId>-->
 <!--        </dependency>-->
 
     </dependencies>

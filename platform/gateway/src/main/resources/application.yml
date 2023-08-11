@@ -17,6 +17,25 @@ spring:
         locator:
           # 禁用通过服务发现来自动地将请求路由到不同的服务实例
           enabled: false
+      globalcors:
+        # CorsConfiguration类
+        cors-configurations:
+#          '[/order]' :
+          '[/**]' :
+            allowed-origins:
+              - "http://localhost:10000"
+              - "*"
+            # 设置哪些请求header可以进行跨域
+            expose-header: "*"
+#            exposedHeaders:
+            allowCredentials: true
+            allowed-methods: "*"
+#            allowedMethods:
+            allowed-headers: "*"
+#            allowedHeaders:
+            # 浏览器缓存时间
+            max-age: 100
+#            maxAge: 100
   sleuth:
     sampler:
       probability: 1
@@ -35,5 +54,3 @@ management:
 
 server:
   port: 30004
-
-
