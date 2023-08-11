@@ -13,12 +13,11 @@
         <module>services/employee-service</module>
         <module>platform/zipkin</module>
         <module>platform/gateway</module>
-        <module>openfeign</module>
-        <module>common/common-auth</module>
         <module>platform/turbine</module>
         <module>platform/hystrix-board</module>
         <module>platform/config-server</module>
         <module>platform/gateway</module>
+        <module>services/oauth-service</module>
     </modules>
 
     <properties>

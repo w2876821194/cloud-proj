@@ -13,6 +13,11 @@ spring:
         username: nacos
         password: nacos
     gateway:
+#      default-filters:
+#        - name: Hystrix
+#          args:
+#            name: fallback
+#            fallbackUri: forward:/global-error
       discovery:
         locator:
           # 禁用通过服务发现来自动地将请求路由到不同的服务实例
@@ -54,3 +59,27 @@ management:
 
 server:
   port: 30004
+
+
+hystrix:
+  # 全局配置
+  default:
+  #通用配置
+  command:
+    # 有的属性是默认值,写不写都行
+  fallbackName:
+    fallback:
+      enabled: true
+    circuitBreaker:
+      enabled: true
+      errorThresholdPercentage: 50
+      requestVolumeThreshold: 5
+      sleepWindowInMilliseconds: 10000
+    execution:
+      timeout:
+        enabled: true
+      isolation:
+        thread:
+          interruptOnTimeout: true
+          interruptOnFutureCancel: true
+          timeoutInMilliseconds: 2000 # 超时判定
