@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: oauth-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.92.1:9011
+        username: nacos
+        password: nacos
+  redis:
+    host: 192.168.92.1
+    port: 6379
+    database: 0
+
+server:
+  port: 23000
